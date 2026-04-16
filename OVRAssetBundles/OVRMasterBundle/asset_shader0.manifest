@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.4.0f1
+CRC: 4262288588
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 06c20fc6be58369554c9d229707a2dbe
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 235cbca85ccdf28f10f6ab4fde453a14
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 02387ac378593fd980d87d62615c1ac3
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Packages/com.meta.xr.sdk.core/Shaders/MetaLit.shader
+- Packages/com.meta.xr.sdk.core/Editor/BuildingBlocks/BlockData/RoomModel/Shaders/TransparentTexture.shader
+- Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader
+Dependencies: []

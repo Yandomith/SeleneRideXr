@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.4.0f1
+CRC: 1880626817
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3358647c3c41d034531c6f6bc95a2427
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: db1571c5055d93407c8f9b96229eba91
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 18ad6a5b47e42edc660baa1fea5edfbd
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Packages/com.meta.xr.sdk.core/Meshes/OculusTouchForQuestAndRiftS/Materials/OculusTouchForQuestAndRiftS_Material.mat
+- Packages/com.meta.xr.sdk.core/Meshes/MetaQuestTouchPlus/Materials/MetaQuestTouchPlusMATphong_left.mat
+- Packages/com.meta.xr.sdk.core/Meshes/MetaQuestTouchPro/Materials/MetaQuestProLeft_Material.mat
+- Packages/com.meta.xr.sdk.core/Meshes/OculusTouchForRift/Materials/OculusTouchForRift_Material.mat
+- Packages/com.meta.xr.sdk.core/Meshes/MetaQuestTouchPro/Materials/batteryIndicator_mat.mat
+- Packages/com.meta.xr.sdk.core/Meshes/OculusTouchForQuest2/Materials/OculusTouchForQuest2_MAT.mat
+- Packages/com.meta.xr.sdk.core/Meshes/MetaQuestTouchPro/Materials/MetaQuestProRight_Material.mat
+- Packages/com.meta.xr.sdk.core/Meshes/MetaQuestTouchPlus/Materials/MetaQuestTouchPlusMATphong_right.mat
+- Packages/com.unity.render-pipelines.universal/Runtime/Materials/Lit.mat
+Dependencies:
+- E:/Unity/carMr/OVRAssetBundles/OVRMasterBundle/asset_png0
+- E:/Unity/carMr/OVRAssetBundles/OVRMasterBundle/asset_shader0
+- E:/Unity/carMr/OVRAssetBundles/OVRMasterBundle/asset_tga0
