@@ -352,6 +352,17 @@ public class PrometeoCarController : MonoBehaviour
         ResetSteeringAngle();
       }
 
+      bool activeBrake = false;
+      if (isHandbrake) activeBrake = true;
+      if (isForward && localVelocityZ < -1f) activeBrake = true;
+      if (isReverse && localVelocityZ > 1f) activeBrake = true;
+      
+      if (!activeBrake) {
+        frontLeftCollider.brakeTorque = 0;
+        frontRightCollider.brakeTorque = 0;
+        rearLeftCollider.brakeTorque = 0;
+        rearRightCollider.brakeTorque = 0;
+      }
 
       // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
       AnimateWheelMeshes();
@@ -627,6 +638,14 @@ public class PrometeoCarController : MonoBehaviour
     // it is high, then you could make the car to feel like going on ice.
     public void Handbrake(){
       CancelInvoke("RecoverTraction");
+      Brakes();
+      
+      // Cut motor torque when handbrake is applied so it doesn't fight the brakes
+      frontLeftCollider.motorTorque = 0;
+      frontRightCollider.motorTorque = 0;
+      rearLeftCollider.motorTorque = 0;
+      rearRightCollider.motorTorque = 0;
+
       // We are going to start losing traction smoothly, there is were our 'driftingAxis' variable takes
       // place. This variable will start from 0 and will reach a top value of 1, which means that the maximum
       // drifting value has been reached. It will increase smoothly by using the variable Time.deltaTime.
@@ -649,7 +668,7 @@ public class PrometeoCarController : MonoBehaviour
       //If the 'driftingAxis' value is not 1f, it means that the wheels have not reach their maximum drifting
       //value, so, we are going to continue increasing the sideways friction of the wheels until driftingAxis
       // = 1f.
-      if(driftingAxis < 1f){
+      if(driftingAxis <= 1f){
         FLwheelFriction.extremumSlip = FLWextremumSlip * handbrakeDriftMultiplier * driftingAxis;
         frontLeftCollider.sidewaysFriction = FLwheelFriction;
 
