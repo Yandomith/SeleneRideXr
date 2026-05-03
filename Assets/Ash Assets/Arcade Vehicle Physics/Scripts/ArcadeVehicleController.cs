@@ -18,12 +18,12 @@ namespace ArcadeVP
         public LayerMask drivableSurface;
 
         [FormerlySerializedAs("MaxSpeed")]
-        public float maxSpeed;
+        public float maxSpeed = 30f;
         
         [FormerlySerializedAs("accelaration")]
-        public float acceleration;
+        public float acceleration = 25f;
         
-        public float turn;
+        public float turn = 3f;
         public float gravity = 7f;
         public float downforce = 5f;
         
@@ -36,6 +36,9 @@ namespace ArcadeVP
         
         [Tooltip("turn more while drifting (while holding space) only if kart Like is true")]
         public float driftMultiplier = 1.5f;
+
+        [Tooltip("If true, the car auto-aligns to the ground and cannot flip. If false, the car can flip over from collisions.")]
+        public bool isArcade = true;
 
         public Rigidbody rb;
         public Rigidbody carBody;
@@ -141,11 +144,11 @@ namespace ArcadeVP
 
                 if (accelerationInput > 0.1f || carVelocity.z > 1)
                 {
-                    carBody.AddTorque(Vector3.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
+                    carBody.AddTorque(carBody.transform.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
                 }
                 else if (accelerationInput < -0.1f || carVelocity.z < -1)
                 {
-                    carBody.AddTorque(Vector3.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
+                    carBody.AddTorque(carBody.transform.up * steeringInput * sign * turn * 100 * TurnMultiplyer);
                 }
 
                 if (!kartLike)
@@ -183,19 +186,37 @@ namespace ArcadeVP
                     }
                 }
 
-                rb.AddForce(-transform.up * downforce * rb.mass);
-
-                carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, hit.normal) * carBody.transform.rotation, 0.12f));
+                if (isArcade)
+                {
+                    rb.AddForce(-transform.up * downforce * rb.mass);
+                    carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, hit.normal) * carBody.transform.rotation, 0.12f));
+                }
+                else
+                {
+                    // Apply downforce relative to world gravity instead of local down when realistic
+                    rb.AddForce(Vector3.down * downforce * rb.mass);
+                    
+                    // Gently align to slope only if driving slowly, otherwise let physics handle it
+                    if (carVelocity.magnitude < 5f)
+                    {
+                        carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, hit.normal) * carBody.transform.rotation, 0.05f));
+                    }
+                }
             }
             else
             {
                 if (airControl)
                 {
                     float TurnMultiplyer = turnCurve.Evaluate(carVelocity.magnitude / maxSpeed);
-                    carBody.AddTorque(Vector3.up * steeringInput * turn * 100 * TurnMultiplyer);
+                    carBody.AddTorque(carBody.transform.up * steeringInput * turn * 100 * TurnMultiplyer);
                 }
 
-                carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, Vector3.up) * carBody.transform.rotation, 0.02f));
+                if (isArcade)
+                {
+                    // Auto-right the car while in the air
+                    carBody.MoveRotation(Quaternion.Slerp(carBody.rotation, Quaternion.FromToRotation(carBody.transform.up, Vector3.up) * carBody.transform.rotation, 0.02f));
+                }
+                
                 rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, rb.linearVelocity + Vector3.down * gravity, Time.deltaTime * gravity);
             }
         }
